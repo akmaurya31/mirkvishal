@@ -14,6 +14,7 @@ class Modal extends CI_Controller {
         $this->output->set_header('Pragma: no-cache');
         $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
 		session_start();		
+		$_SESSION['login_type']='admin';
     }
 	
 	/***default functin, redirects to login page if no admin logged in yet***/
