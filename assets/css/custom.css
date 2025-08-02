@@ -7,3 +7,8 @@
 body {
 	
 }
+
+.d-none{
+   display: none  !important;
+
+}

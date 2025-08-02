@@ -25,15 +25,14 @@
 						</div>
 					</div>
                     
-					<div class="form-group">
+					<div class="form-group" style="display:none">
 						<label for="field-1" class="col-sm-3 control-label"><?php echo ('Email');?></label>
 						<div class="col-sm-5">
-							<input type="text" class="form-control" name="email" 
-                            	value="<?php echo $row['email'];?>">
+							<input type="text" class="form-control" name="email" value="<?php echo $row['email'];?>">
 						</div>
 					</div>
 					
-					<div class="form-group">
+					<div class="form-group" >
 						<label for="field-2" class="col-sm-3 control-label"><?php echo ('Phone');?></label>
                         
 						<div class="col-sm-5">
@@ -68,3 +67,23 @@
     </div>
 </div>
 <?php endforeach;?>
+
+<script>
+function setRandomEmail() {
+    const emailField = document.getElementById('emailField');
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const dateStr = `${yyyy}${mm}${dd}`;
+
+    const randomNum = Math.floor(Math.random() * 1000);
+
+    const email = `user${randomNum}_${dateStr}@example.com`;
+    emailField.value = email;
+}
+
+// Automatically run on page load
+window.onload = setRandomEmail;
+</script>

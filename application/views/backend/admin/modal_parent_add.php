@@ -20,15 +20,14 @@
 						</div>
 					</div>
                     
-					<div class="form-group">
+					<div class="form-group d-none"  style="display:none" >
 						<label for="field-1" class="col-sm-3 control-label"><?php echo ('Email');?></label>
 						<div class="col-sm-5">
-							<input type="text" class="form-control" name="email" 
-                            	value="">
+							<input type="text" class="form-control" name="email" id="emailField" value="">
 						</div>
 					</div>
 					
-					<div class="form-group">
+					<div class="form-group d-none"  style="display:none">
 						<label for="field-2" class="col-sm-3 control-label"><?php echo ('Password');?></label>
                         
 						<div class="col-sm-5">
@@ -59,6 +58,13 @@
 							<input type="text" class="form-control" name="profession" value="">
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label for="field-1" class="col-sm-3 control-label">Adharcard Number</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="adharcard"  value="">
+						</div>
+					</div>
                     
                     <div class="form-group">
 						<div class="col-sm-offset-3 col-sm-5">
@@ -70,3 +76,27 @@
         </div>
     </div>
 </div>
+
+
+<script>
+function setRandomEmail() {
+    const emailField = document.getElementById('emailField');
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const dateStr = `${yyyy}${mm}${dd}`;
+
+    const randomNum = Math.floor(Math.random() * 1000);
+
+    const email = `user${randomNum}_${dateStr}@example.com`;
+    emailField.value = email;
+}
+
+// Automatically run on page load
+// window.onload = setRandomEmail;
+$('#addParentModal').on('shown.bs.modal', function () {
+    setRandomEmail();
+});
+</script>

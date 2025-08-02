@@ -52,7 +52,7 @@
         <li class="<?php if ($page_name == 'class_routine') echo 'opened active';?> ">
             <a href="#">
                 <i class="entypo-target"></i>
-                <span><?php echo ('Class Routine'); ?></span>
+                <span><?php echo ('Class Routine'); ?>bbb</span>
             </a>
             <ul>
             <?php 

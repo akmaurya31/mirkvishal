@@ -83,12 +83,14 @@
         </li>
 
         <!-- CLASS ROUTINE -->
+         <?php /* ?>
         <li class="<?php if ($page_name == 'class_routine') echo 'active'; ?> ">
             <a href="<?php echo base_url(); ?>index.php?admin/class_routine">
                 <i class="entypo-calendar"></i>
-                <span><?php echo ('Class Routine'); ?></span>
+                <span><?php echo ('Class Routine'); ?>ccc</span>
             </a>
-        </li>
+        </li> 
+         <?php */ ?>
 
          <!-- PARENTS -->
          <li class="<?php if ($page_name == 'parent') echo 'active'; ?> ">
@@ -285,30 +287,38 @@
         </li>
 
         <!-- DORMITORY -->
+         <?php /* ?>
         <li class="<?php if ($page_name == 'dormitory') echo 'active'; ?> ">
             <a href="<?php echo base_url(); ?>index.php?admin/dormitory">
                 <i class="entypo-home"></i>
                 <span><?php echo ('Dormitory'); ?></span>
             </a>
         </li>
+         <?php */ ?>
+
 
         <!-- NOTICEBOARD -->
+         <?php /* ?>
         <li class="<?php if ($page_name == 'noticeboard') echo 'active'; ?> ">
             <a href="<?php echo base_url(); ?>index.php?admin/noticeboard">
                 <i class="entypo-doc-text-inv"></i>
                 <span><?php echo ('Noticeboard'); ?></span>
             </a>
         </li>
+         <?php */ ?>
 
         <!-- MESSAGE -->
+         <?php /* ?>
         <li class="<?php if ($page_name == 'message') echo 'active'; ?> ">
             <a href="<?php echo base_url(); ?>index.php?admin/message">
                 <i class="entypo-mail"></i>
                 <span><?php echo ('Message'); ?></span>
             </a>
         </li>
+         <?php */ ?>
 
         <!-- SETTINGS -->
+        <?php /* ?>
         <li class="<?php
         if ($page_name == 'system_settings' ||
                 $page_name == 'manage_language' ||
@@ -338,13 +348,18 @@
             </ul>
         </li>
 
+         <?php */ ?>
+
+
         <!-- ACCOUNT -->
+        <?php /* ?>
         <li class="<?php if ($page_name == 'manage_profile') echo 'active'; ?> ">
             <a href="<?php echo base_url(); ?>index.php?admin/manage_profile">
                 <i class="entypo-lock"></i>
                 <span><?php echo ('Account'); ?></span>
             </a>
         </li>
+         <?php */ ?>
 
     </ul>
 

@@ -310,6 +310,7 @@ class Admin extends CI_Controller
             $data['phone']      = $this->input->post('phone');
             $data['email']      = $this->input->post('email');
             $data['password']   = $this->input->post('password');
+            $data['adharcard']   = $this->input->post('adharcard');
             $data['class_id']   = $this->input->post('class_id');
             if ($this->input->post('section_id') != '') {
                 $data['section_id'] = $this->input->post('section_id');
@@ -362,6 +363,7 @@ class Admin extends CI_Controller
             $data['phone']       			= $this->input->post('phone');
             $data['address']     			= $this->input->post('address');
             $data['profession']  			= $this->input->post('profession');
+            $data['adharcard']  			= $this->input->post('adharcard');
             $this->db->insert('parent', $data);
             $this->session->set_flashdata('flash_message' , get_phrase('data_added_successfully'));
             $this->email_model->account_opening_email('parent', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
