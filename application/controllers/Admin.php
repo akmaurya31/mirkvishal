@@ -311,6 +311,12 @@ class Admin extends CI_Controller
             $data['email']      = $this->input->post('email');
             $data['password']   = $this->input->post('password');
             $data['adharcard']   = $this->input->post('adharcard');
+
+            $data['father_name']   = $this->input->post('father_name');
+            $data['mother_name']   = $this->input->post('mother_name');
+            $data['grdname']   = $this->input->post('graduation_name');
+            $data['grd_adharcard']   = $this->input->post('grd_adharcard');
+
             $data['class_id']   = $this->input->post('class_id');
             if ($this->input->post('section_id') != '') {
                 $data['section_id'] = $this->input->post('section_id');
@@ -977,6 +983,134 @@ class Admin extends CI_Controller
         $page_data['page_title'] = 'Expenses';
         $this->load->view('backend/index', $page_data); 
     }
+
+    function get_students_by_class($param1 = '' , $param2 = ''){
+        echo $param2;
+        echo $param1;
+        die("Asdaf");
+
+            // $this->db->where('payment_id' , $param2);
+    }
+
+
+     function fee($param1 = '' , $param2 = '')
+    {
+        // if ($_SESSION['admin_login'] != 1)
+        //     redirect('login', 'refresh');
+        if ($param1 == 'create') {
+
+            $data['fee_name']   =   $this->input->post('class_id');
+            $data['monthly']   =   $this->input->post('monthly');
+            $data['admission']   =   $this->input->post('admission');
+            $this->db->insert('fee' , $data);
+            $this->session->set_flashdata('flash_message' , get_phrase('data_added_successfully'));
+            redirect(base_url() . 'index.php?admin/fee');
+        }
+        if ($param1 == 'edit') {
+            $data['fee_name']   =   $this->input->post('fee_name');
+            $data['monthly']   =   $this->input->post('monthly');
+            $data['admission']   =   $this->input->post('admission');
+
+            $this->db->where('fee_id' , $param2);
+            $this->db->update('fee' , $data);
+            $this->session->set_flashdata('flash_message' , get_phrase('data_updated'));
+            redirect(base_url() . 'index.php?admin/fee');
+        }
+        if ($param1 == 'delete') {
+            $this->db->where('expense_category_id' , $param2);
+            $this->db->delete('expense_category');
+            $this->session->set_flashdata('flash_message' , get_phrase('data_deleted'));
+            redirect(base_url() . 'index.php?admin/fee');
+        }
+
+        $page_data['page_name']  = 'fee';
+        $page_data['page_title'] = 'Fee';
+        $this->load->view('backend/index', $page_data);
+    }
+
+    function invoice_fee($param1 = '', $param2 = '', $param3 = '')
+    {
+        // if ($_SESSION['admin_login'] != 1)
+        //     redirect(base_url(), 'refresh');
+        
+        if ($param1 == 'create') {
+            $data['fee_date'] = $this->input->post('date');
+            $data['title']              = $this->input->post('title');
+            $data['class_id']         = $this->input->post('class_id');
+            $data['student_id']         = $this->input->post('student_id');
+            $data['fee_duration']         = $this->input->post('fee_duration');
+            $data['amount']             = $this->input->post('amount');
+            $data['transportation_fee'] = $this->input->post('transportation_amount');
+            $data['examination_fee'] = $this->input->post('examination_amount');
+            $data['admission_fee'] = $this->input->post('admission_amount');
+            $data['other_fee_text'] = $this->input->post('other_fee_title');
+            $data['other_fee'] = $this->input->post('other_fee_amount');
+            $data['status']             = $this->input->post('status');
+            $data['payment_method']             = $this->input->post('method');
+            $data['description']        = $this->input->post('description');
+
+            $data['amount_paid']        = $this->input->post('amount');
+            $data['due']                = $data['amount'];
+            $data['creation_timestamp'] = strtotime($this->input->post('date'));
+            
+            $this->db->insert('invoice', $data);
+            $invoice_id = $this->db->insert_id();
+ 
+
+            $this->session->set_flashdata('flash_message' , get_phrase('data_added_successfully'));
+            redirect(base_url() . 'index.php?admin/invoice', 'refresh');
+        }
+        if ($param1 == 'do_update') {
+            $data['student_id']         = $this->input->post('student_id');
+            $data['title']              = $this->input->post('title');
+            $data['description']        = $this->input->post('description');
+            $data['amount']             = $this->input->post('amount');
+            $data['status']             = $this->input->post('status');
+            $data['creation_timestamp'] = strtotime($this->input->post('date'));
+            
+            $this->db->where('invoice_id', $param2);
+            $this->db->update('invoice', $data);
+            $this->session->set_flashdata('flash_message' , get_phrase('data_updated'));
+            redirect(base_url() . 'index.php?admin/invoice', 'refresh');
+        } else if ($param1 == 'edit') {
+            $page_data['edit_data'] = $this->db->get_where('invoice', array(
+                'invoice_id' => $param2
+            ))->result_array();
+        }
+        if ($param1 == 'take_payment') {
+            $data['invoice_id']   =   $this->input->post('invoice_id');
+            $data['student_id']   =   $this->input->post('student_id');
+            $data['title']        =   $this->input->post('title');
+            $data['description']  =   $this->input->post('description');
+            $data['payment_type'] =   'income';
+            $data['method']       =   $this->input->post('method');
+            $data['amount']       =   $this->input->post('amount');
+            $data['timestamp']    =   strtotime($this->input->post('timestamp'));
+            $this->db->insert('payment' , $data);
+
+            $data2['amount_paid']   =   $this->input->post('amount');
+            $this->db->where('invoice_id' , $param2);
+            $this->db->set('amount_paid', 'amount_paid + ' . $data2['amount_paid'], FALSE);
+            $this->db->set('due', 'due - ' . $data2['amount_paid'], FALSE);
+            $this->db->update('invoice');
+
+            $this->session->set_flashdata('flash_message' , get_phrase('payment_successfull'));
+            redirect(base_url() . 'index.php?admin/invoice', 'refresh');
+        }
+
+        if ($param1 == 'delete') {
+            $this->db->where('invoice_id', $param2);
+            $this->db->delete('invoice');
+            $this->session->set_flashdata('flash_message' , get_phrase('data_deleted'));
+            redirect(base_url() . 'index.php?admin/invoice', 'refresh');
+        }
+        $page_data['page_name']  = 'invoice_fee';
+        $page_data['page_title'] = 'Manage Invoice/Payment';
+        $this->db->order_by('creation_timestamp', 'desc');
+        $page_data['invoices'] = $this->db->get('invoice')->result_array();
+        $this->load->view('backend/index', $page_data);
+    }
+
 
     function expense_category($param1 = '' , $param2 = '')
     {

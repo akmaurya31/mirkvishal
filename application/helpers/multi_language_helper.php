@@ -45,6 +45,40 @@ if ( ! function_exists('get_phrase'))
 	}
 }
 
+function getClassName($id) {
+	// die("Sdf");
+	$CI	=&	get_instance();
+	$CI->load->database();
+    $CI->db->where('class_id', $id);
+    $query = $CI->db->get('class');
+    if ($query->num_rows() > 0) {
+        $row = $query->row();
+        return $row->name;  // assuming 'name' is the column holding class name
+    } else {
+        return null;
+    }
+}
+
+
+function getStudentNames($class_id) {
+    $CI =& get_instance();
+    $CI->load->database();
+    
+    $CI->db->where('class_id', $class_id);
+    $query = $CI->db->get('student');
+
+    $students = [];
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $students[] = $row->name;  // assuming 'name' is student name column
+        }
+    }
+
+    return $students;
+}
+
+
 // ------------------------------------------------------------------------
 /* End of file language_helper.php */
 /* Location: ./system/helpers/language_helper.php */

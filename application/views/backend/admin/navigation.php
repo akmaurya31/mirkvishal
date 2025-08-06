@@ -92,13 +92,17 @@
         </li> 
          <?php */ ?>
 
+
          <!-- PARENTS -->
+         <?php /* ?>
+
          <li class="<?php if ($page_name == 'parent') echo 'active'; ?> ">
             <a href="<?php echo base_url(); ?>index.php?admin/parent">
                 <i class="entypo-user"></i>
                 <span><?php echo ('Parents'); ?></span>
             </a>
         </li>
+         <?php */ ?>
 
         <!-- STUDENT -->
         <li class="<?php
@@ -127,7 +131,7 @@
                  
                 <li class="<?php if ($page_name == 'student_add') echo 'active'; ?> ">
                     <a href="<?php echo base_url(); ?>index.php?admin/student_add">
-                        <span><i class="entypo-dot"></i> <?php echo ('Admit Student'); ?></span>
+                        <span><i class="entypo-dot"></i> <?php echo ('Admission Form'); ?></span>
                     </a>
                 </li>
 
@@ -182,7 +186,7 @@
         <li class="<?php if ($page_name == 'teacher') echo 'active'; ?> ">
             <a href="<?php echo base_url(); ?>index.php?admin/teacher">
                 <i class="entypo-users"></i>
-                <span><?php echo ('Teacher Section'); ?></span>
+                <span><?php echo ('Employee Section'); ?></span>
             </a>
         </li>
 
@@ -233,8 +237,8 @@
         </li>
 
         <!-- PAYMENT -->
-        <li class="<?php if ($page_name == 'invoice') echo 'active'; ?> ">
-            <a href="<?php echo base_url(); ?>index.php?admin/invoice">
+        <li class="<?php if ($page_name == 'invoice_fee') echo 'active'; ?> ">
+            <a href="<?php echo base_url(); ?>index.php?admin/invoice_fee">
                 <i class="entypo-credit-card"></i>
                 <span><?php echo ('Payment and Invoice'); ?></span>
             </a>
@@ -270,21 +274,41 @@
             </ul>
         </li>
 
+
+         <!-- Fee -->
+        <li class="<?php if ($page_name == 'fee') echo 'active'; ?> ">
+            <a href="<?php echo base_url(); ?>index.php?admin/fee">
+                <i class="entypo-book"></i>
+                <span><?php echo ('Fee Structure'); ?></span>
+            </a>
+        </li>
+
+        <!-- <li class="<?php // if ($page_name == 'invoice_fee') echo 'active'; ?> ">
+            <a href="<?php // echo base_url(); ?>index.php?admin/invoice_fee">
+                <i class="entypo-book"></i>
+                <span><?php // echo ('Inovice Fee'); ?></span>
+            </a>
+        </li> -->
+
         <!-- LIBRARY -->
+         <?php /* 
         <li class="<?php if ($page_name == 'book') echo 'active'; ?> ">
             <a href="<?php echo base_url(); ?>index.php?admin/book">
                 <i class="entypo-book"></i>
                 <span><?php echo ('Library'); ?></span>
             </a>
         </li>
+        <?php */ ?>
 
         <!-- TRANSPORT -->
+         <?php /* ?>
         <li class="<?php if ($page_name == 'transport') echo 'active'; ?> ">
             <a href="<?php echo base_url(); ?>index.php?admin/transport">
                 <i class="entypo-location"></i>
                 <span><?php echo ('Transportation'); ?></span>
             </a>
         </li>
+        <?php */ ?>
 
         <!-- DORMITORY -->
          <?php /* ?>

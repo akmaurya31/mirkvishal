@@ -19,25 +19,29 @@
 						</div>
 					</div>
 
+
 					<div class="form-group">
-						<label for="field-2" class="col-sm-3 control-label"><?php echo ('Parent');?></label>
-                        
+						<label for="field-father" class="col-sm-3 control-label"><?php echo ('Father Name'); ?></label>
 						<div class="col-sm-5">
-							<select name="parent_id" class="form-control">
-                              <option value=""><?php echo ('Select');?></option>
-                              <?php 
-								$parents = $this->db->get('parent')->result_array();
-								foreach($parents as $row):
-									?>
-                            		<option value="<?php echo $row['parent_id'];?>">
-										<?php echo $row['name'];?>
-                                    </option>
-                                <?php
-								endforeach;
-							  ?>
-                          </select>
-						</div> 
+							<input type="text" class="form-control" name="father_name" data-validate="required" data-message-required="<?php echo ('Value Required'); ?>" value="">
+						</div>
 					</div>
+
+					<div class="form-group">
+						<label for="field-mother" class="col-sm-3 control-label"><?php echo ('Mother Name'); ?></label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="mother_name" data-validate="required" data-message-required="<?php echo ('Value Required'); ?>" value="">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="field-graduation" class="col-sm-3 control-label"><?php echo ('Guardian Name'); ?></label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="graduation_name" data-validate="required" data-message-required="<?php echo ('Value Required'); ?>" value="">
+						</div>
+					</div>
+
+					 
 					
 					<div class="form-group">
 						<label for="field-2" class="col-sm-3 control-label"><?php echo ('Class');?></label>
@@ -116,9 +120,16 @@
 					</div>
 
 					<div class="form-group">
-						<label for="field-1" class="col-sm-3 control-label">Adharcard Number</label>
+						<label for="field-1" class="col-sm-3 control-label">Adhar Number</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control" name="adharcard"  value="">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="field-1" class="col-sm-3 control-label">Guardian Adhar Number</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="grd_adharcard"  value="">
 						</div>
 					</div>
 
