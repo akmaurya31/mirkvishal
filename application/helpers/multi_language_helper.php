@@ -59,11 +59,36 @@ function getClassName($id) {
     }
 }
 
+ function getFeeByClassid($class_id) {
+    $CI =& get_instance();
+    $CI->load->database();
+
+    // Use correct foreign key (probably class_id or fee_class_id)
+    $CI->db->where('fee_name', $class_id); 
+    $query = $CI->db->get('fee');
+
+    $fees = [];
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $fees[] = array(
+                'id'        => $row->fee_id,
+                'monthly'   => $row->monthly,
+                'admission' => $row->admission
+            );
+        }
+        return $fees; // return if data exists
+    } else {
+        return null; // return null if no records
+    }
+}
+
+
 
 function getStudentNames($class_id) {
     $CI =& get_instance();
     $CI->load->database();
-    
+
     $CI->db->where('class_id', $class_id);
     $query = $CI->db->get('student');
 
@@ -71,13 +96,17 @@ function getStudentNames($class_id) {
 
     if ($query->num_rows() > 0) {
         foreach ($query->result() as $row) {
-            $students[] = $row->name;  // assuming 'name' is student name column
+            $students[] = array(
+                'id'   => $row->student_id,
+                'name' => $row->name . ' - Roll ' . $row->roll
+            );
         }
     }
 
-    return $students;
+    header('Content-Type: application/json');
+    echo json_encode($students);
+    exit;
 }
-
 
 // ------------------------------------------------------------------------
 /* End of file language_helper.php */

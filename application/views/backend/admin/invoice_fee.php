@@ -123,6 +123,7 @@
                              <div class="form-group">
                                 <label class="col-sm-3 control-label"><?php echo ('Class');?></label>
                                 <div class="col-sm-5">
+                                    
                                     <select name="class_id" class="form-control" style="width:100%;" onchange="get_students_by_class(this.value)">
                                     	<?php 
 										$teachers = $this->db->get('class')->result_array();
@@ -137,8 +138,17 @@
                             </div>
 
 
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><?php echo ('Student'); ?></label>
+                                <div class="col-sm-9">
+                                    <select name="student_id" class="form-control" id="student_dropdown">
+                                        <option value=""><?php echo ('Select Student'); ?></option>
+                                    </select>
+                                </div>
+                            </div>
                                 
-                                <div class="form-group">
+                           <?php /*     <div class="form-group">
                                     <label class="col-sm-3 control-label"><?php echo ('Student');?></label>
                                     <div class="col-sm-9">
                                         <select name="student_id" class="form-control" style="" >
@@ -157,7 +167,7 @@
                                             ?>
                                         </select>
                                     </div>
-                                </div>
+                                </div>  */ ?>
 
 	
 
@@ -177,7 +187,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><?php echo ('Amount');?></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="amount"/>
+                                        <input type="text" class="form-control" name="amount"  id="id_amount"/>
                                     </div>
                                 </div>
 
@@ -224,7 +234,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" name="admission_amount" placeholder="Amount">
+                                                <input type="text" class="form-control" name="admission_amount"  id="id_admission_amount" placeholder="Amount">
                                             </div>
                                         </div>
 
@@ -316,10 +326,35 @@ function get_students_by_class(class_id) {
     if (class_id != "") {
         $.ajax({
             url: "<?php echo base_url(); ?>index.php?admin/get_students_by_class/" + class_id,
-            success: function(response) {
-                $('#student_dropdown').html(response);
+             success: function(response) {
+                var options = '<option value="">Select Student</option>';
+                for (var i = 0; i < response.length; i++) {
+                    options += '<option value="' + response[i].id + '">' + response[i].name + '</option>';
+                }
+                $('#student_dropdown').html(options);
             }
         });
+
+        $.ajax({
+            url: "<?php echo base_url(); ?>index.php?admin/ggetFeeByClassid/" + class_id,
+            success: function(response1) {
+                var response = JSON.parse(response1); // ✅ Fix 1: Capital JSON
+
+                if (response.length > 0) {
+                    // ✅ Fix 2: Access the first object in array
+                    $('#id_amount').val(response[0].monthly);
+                    $('#id_admission_amount').val(response[0].admission);
+                } else {
+                    // Optional: Clear values if no fee found
+                    $('#id_amount').val('');
+                    $('#id_admission_amount').val('');
+                }
+            }
+        });
+
+       
+
+
     } else {
         $('#student_dropdown').html('<option value="">Select Student</option>');
     }

@@ -985,12 +985,15 @@ class Admin extends CI_Controller
     }
 
     function get_students_by_class($param1 = '' , $param2 = ''){
-        echo $param2;
-        echo $param1;
-        die("Asdaf");
-
-            // $this->db->where('payment_id' , $param2);
+           $rr =  getStudentNames($param1);
+	       echo json_encode($rr);
     }
+
+    function ggetFeeByClassid($param1 = '' , $param2 = ''){
+           $rr =  getFeeByClassid($param1);
+	       echo json_encode($rr);
+    }
+
 
 
      function fee($param1 = '' , $param2 = '')
