@@ -53,6 +53,17 @@ class="btn btn-primary pull-right">
                         Action <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-default pull-right" role="menu">
+
+
+					<li>
+						<a href="#" onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_view_slip/<?php echo $row['payment_id'];?>');">
+							<i class="entypo-credit-card"></i>
+								<?php echo ('Slip');?>
+							</a>
+									</li>
+					<li class="divider"></li>
+
+
                         
                         <!-- teacher EDITING LINK -->
                         <li>

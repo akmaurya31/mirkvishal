@@ -1,5 +1,5 @@
 
-            <a href="javascript:;" onclick="showAjaxModal111('<?php echo base_url();?>index.php?modal/popup/modal_teacher_add/');" 
+            <a href="javascript:;" onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_teacher_add/');" 
             	class="btn btn-primary pull-right">
                 <i class="entypo-plus-circled"></i>
             	<?php echo 'Add New Employee';?>
@@ -10,7 +10,7 @@
                         <tr>
                             <th width="80"><div><?php echo ('Photo');?></div></th>
                             <th><div><?php echo ('Name');?></div></th>
-                            <th><div><?php echo ('Email');?></div></th>
+                            <th><div><?php echo ('Employee Post');?></div></th>
                             <th><div><?php echo ('Options');?></div></th>
                         </tr>
                     </thead>

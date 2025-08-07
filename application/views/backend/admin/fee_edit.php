@@ -62,6 +62,15 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="col-sm-3 control-label"><?php echo ('Examination'); ?></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="examination"
+                            data-validate="required" data-message-required="<?php echo ('Value Required'); ?>"
+                            value="<?php echo $row['examination']; ?>">
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-5">
                         <button type="submit" class="btn btn-info"><?php echo ('Update Fee'); ?></button>
                     </div>

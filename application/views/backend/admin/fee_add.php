@@ -49,6 +49,13 @@
 						</div>
 						</div>
 
+						<div class="form-group">
+						<label for="field-1" class="col-sm-3 control-label"><?php echo ('Examination');?></label>
+                        <div class="col-sm-6">
+							<input type="text" class="form-control" name="examination" data-validate="required" data-message-required="<?php echo ('Value Required');?>" value="" autofocus>
+						</div>
+						</div>
+
    
                     
                     <div class="form-group">

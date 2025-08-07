@@ -68,13 +68,14 @@
                                     <li class="divider"></li>
                                     
                                     <!-- EDITING LINK -->
-                                    <li>
+                                   <?php /* ?> <li>
                                         <a href="#" onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_edit_invoice/<?php echo $row['invoice_id'];?>');">
                                             <i class="entypo-pencil"></i>
                                                 <?php echo ('Edit');?>
                                         </a>
                                     </li>
                                     <li class="divider"></li>
+                                    <?php */ ?>
 
                                     <!-- DELETION LINK -->
                                     <li>
@@ -105,7 +106,7 @@
                             </div>
                             <div class="panel-body">
 
-                            <div class="form-group">
+                                <div class="form-group">
                                     <label class="col-sm-3 control-label"><?php echo ('Date');?></label>
                                     <div class="col-sm-9">
                                         <input type="text" class="datepicker form-control" name="date"/>
@@ -113,12 +114,12 @@
                                 </div>
 
                                 
-                                <div class="form-group">
+                              <?php /*  <div class="form-group">
                                     <label class="col-sm-3 control-label"><?php echo ('Title');?></label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" name="title" placeholder="Monthly Fees - Feb"/>
                                     </div>
-                                </div>
+                                </div> */ ?>
 
                              <div class="form-group">
                                 <label class="col-sm-3 control-label"><?php echo ('Class');?></label>
@@ -221,7 +222,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 mt-4">
-                                                <input type="text" class="form-control tcls" name="examination_amount" placeholder="Amount">
+                                                <input type="text" class="form-control tcls" name="examination_amount" id="id_examination_amount" placeholder="Amount">
                                             </div>
                                         </div>
 
@@ -347,10 +348,12 @@
                     $('#id_amount').val(response[0].monthly);
                     $('#id_hid_amount').val(response[0].monthly);
                     $('#id_admission_amount').val(response[0].admission);
+                    $('#id_examination_amount').val(response[0].examination);
                 } else {
                     $('#id_amount').val('');
                     $('#id_hid_amount').val('');
                     $('#id_admission_amount').val('');
+                    $('#id_examination_amount').val('');
                 }
 
                 // ✅ 3. Calculate total only after fee data is set

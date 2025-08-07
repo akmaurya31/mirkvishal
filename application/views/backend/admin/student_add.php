@@ -107,7 +107,7 @@
 						<label for="field-2" class="col-sm-3 control-label"><?php echo ('Address');?></label>
                         
 						<div class="col-sm-5">
-							<input type="text" class="form-control" name="address" value="" >
+							<textarea class="form-control" name="address" rows="4"></textarea>
 						</div> 
 					</div>
 					
@@ -130,6 +130,13 @@
 						<label for="field-1" class="col-sm-3 control-label">Guardian Adhar Number</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control" name="grd_adharcard"  value="">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label"><?php echo (' Admission Date');?></label>
+						<div class="col-sm-9">
+							<input type="text" class="datepicker form-control" name="add_date"/>
 						</div>
 					</div>
 

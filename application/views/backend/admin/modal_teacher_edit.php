@@ -69,22 +69,22 @@ foreach ( $edit_data as $row):
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label"><?php echo ('Email');?></label>
+                                <label class="col-sm-3 control-label"><?php echo ('Employee Post');?></label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" name="email" value="<?php echo $row['email'];?>"/>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="col-sm-3 control-label"><?php echo ('Password');?></label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" name="password" value="<?php echo $row['password'];?>"/>
                                 </div>
-                            </div>
+                            </div> -->
                             
                             
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-5">
-                                <button type="submit" class="btn btn-info"><?php echo ('Edit Teacher');?></button>
+                                <button type="submit" class="btn btn-info"><?php echo ('Edit');?></button>
                             </div>
                         </div>
                 <?php echo form_close();?>

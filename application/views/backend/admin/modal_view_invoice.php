@@ -50,16 +50,16 @@ foreach ($edit_data as $row):
         <table width="100%" border="0">    
             <tr>
                 <td align="right" width="80%"><?php echo ('Total Amount'); ?> :</td>
-                <td align="right">$<?php echo $row['amount']; ?></td>
+                <td align="right">₹<?php echo $row['amount']; ?></td>
             </tr>
             <tr>
                 <td align="right" width="80%"><h4><?php echo ('Paid Amount'); ?> :</h4></td>
-                <td align="right"><h4>$<?php echo $row['amount_paid']; ?></h4></td>
+                <td align="right"><h4>₹<?php echo $row['amount_paid']; ?></h4></td>
             </tr>
             <?php if ($row['due'] != 0):?>
             <tr>
                 <td align="right" width="80%"><h4><?php echo ('Due'); ?> :</h4></td>
-                <td align="right"><h4>$<?php echo $row['due']; ?></h4></td>
+                <td align="right"><h4>₹<?php echo $row['due']; ?></h4></td>
             </tr>
             <?php endif;?>
         </table>
@@ -83,7 +83,7 @@ foreach ($edit_data as $row):
                     ?>
                     <tr>
                         <td><?php echo date("d M, Y", $row2['timestamp']); ?></td>
-                        <td>$<?php echo $row2['amount']; ?></td>
+                        <td>₹<?php echo $row2['amount']; ?></td>
                         <td>
                             <?php 
                                 if ($row2['method'] == 1)
@@ -101,6 +101,28 @@ foreach ($edit_data as $row):
             </tbody>
             <tbody>
         </table>
+
+        <hr>
+
+        <table width="100%" border="0">
+             <thead>
+
+               <tr>
+                    <th> <Br/> </th>
+                    <th> </th>
+                </tr>
+
+                <tr>
+                    <th><?php echo ('Sign'); ?></th>
+                    <th><?php echo ('Stamp'); ?></th>
+                </tr>
+            </thead>
+            <tr>
+                <td align="right">                </td>
+                <td align="right">                </td>
+            </tr>
+        </table>
+
     </div>
 <?php endforeach; ?>
 

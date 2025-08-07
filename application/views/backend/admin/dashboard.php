@@ -40,38 +40,9 @@
                 </div>
                 
             </div>
+ 
 
-            <div class="col-md-4">
-            
-                <div class="tile-stats tile-green">
-                    <div class="icon"><i class="entypo-calendar"></i></div>
-                    <?php 
-							$check	=	array(	'date' => date('Y-m-d') , 'status' => '1' );
-							$query = $this->db->get_where('attendance' , $check);
-							$present_today		=	$query->num_rows();
-						?>
-                    <div class="num" data-start="0" data-end="<?php echo $present_today;?>" 
-                    		data-postfix="" data-duration="500" data-delay="0">0</div>
-                    
-                    <h3><?php echo ('Todays Attendance');?></h3>
-                   
-                </div>
-                
-            </div>
-
-
-            <div class="col-md-4">
-            
-                <div class="tile-stats tile-purple">
-                    <div class="icon"><i class="entypo-user"></i></div>
-                    <div class="num" data-start="0" data-end="<?php echo $this->db->count_all('parent');?>" 
-                    		data-postfix="" data-duration="500" data-delay="0">0</div>
-                    
-                    <h3><?php echo ('Parent');?></h3>
-                   
-                </div>
-                
-            </div>
+           
 
             <div class="col-md-4">
             

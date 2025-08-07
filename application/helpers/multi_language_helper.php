@@ -74,7 +74,8 @@ function getClassName($id) {
             $fees[] = array(
                 'id'        => $row->fee_id,
                 'monthly'   => $row->monthly,
-                'admission' => $row->admission
+                'admission' => $row->admission,
+                'examination' => $row->examination,
             );
         }
         return $fees; // return if data exists

@@ -13,6 +13,7 @@ class="btn btn-primary pull-right">
             <th><div><?php echo ('Class Name');?></div></th>
             <th><div><?php echo ('Monthly');?></th>
             <th><div><?php echo ('Admission');?></div></th>
+            <th><div><?php echo ('Examination');?></div></th>
             <th><div><?php echo ('Action');?></div></th>
         </tr>
     </thead>
@@ -29,6 +30,7 @@ class="btn btn-primary pull-right">
             <td><?php  echo getClassName($row['fee_name']);  //echo  ?></td>
             <td><?php echo $row['monthly'];?></td>
             <td><?php echo $row['admission'];?></td>
+            <td><?php echo $row['examination'];?></td>
             <td>
                 
                 <div class="btn-group">

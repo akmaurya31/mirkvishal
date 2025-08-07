@@ -317,6 +317,8 @@ class Admin extends CI_Controller
             $data['grdname']   = $this->input->post('graduation_name');
             $data['grd_adharcard']   = $this->input->post('grd_adharcard');
 
+            $data['add_date']   = $this->input->post('add_date');
+
             $data['class_id']   = $this->input->post('class_id');
             if ($this->input->post('section_id') != '') {
                 $data['section_id'] = $this->input->post('section_id');
@@ -446,8 +448,8 @@ class Admin extends CI_Controller
             redirect(base_url() . 'index.php?admin/teacher/', 'refresh');
         }
         $page_data['teachers']   = $this->db->get('teacher')->result_array();
-        $page_data['page_name']  = 'teacher';
-        $page_data['page_title'] = 'Manage Teacher';
+        $page_data['page_name']  = 'employee';
+        $page_data['page_title'] = 'Manage Employee';
         $this->load->view('backend/index', $page_data);
     }
     
@@ -1005,14 +1007,17 @@ class Admin extends CI_Controller
             $data['fee_name']   =   $this->input->post('class_id');
             $data['monthly']   =   $this->input->post('monthly');
             $data['admission']   =   $this->input->post('admission');
+            $data['examination']   =   $this->input->post('examination');
+            
             $this->db->insert('fee' , $data);
             $this->session->set_flashdata('flash_message' , get_phrase('data_added_successfully'));
             redirect(base_url() . 'index.php?admin/fee');
         }
         if ($param1 == 'edit') {
-            $data['fee_name']   =   $this->input->post('fee_name');
+            $data['fee_name']   =   $this->input->post('class_id');
             $data['monthly']   =   $this->input->post('monthly');
             $data['admission']   =   $this->input->post('admission');
+            $data['examination']   =   $this->input->post('examination');
 
             $this->db->where('fee_id' , $param2);
             $this->db->update('fee' , $data);
@@ -1020,8 +1025,8 @@ class Admin extends CI_Controller
             redirect(base_url() . 'index.php?admin/fee');
         }
         if ($param1 == 'delete') {
-            $this->db->where('expense_category_id' , $param2);
-            $this->db->delete('expense_category');
+            $this->db->where('fee_id' , $param2);
+            $this->db->delete('fee');
             $this->session->set_flashdata('flash_message' , get_phrase('data_deleted'));
             redirect(base_url() . 'index.php?admin/fee');
         }
