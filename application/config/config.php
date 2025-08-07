@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
  
-$config['base_url'] = 'http://localhost/mirkvishal/';
-// $config['base_url']='http://16.171.154.65/';
+// $config['base_url'] = 'http://localhost/mirkvishal/';
+$config['base_url']='http://16.171.154.65/';
  
 $config['index_page'] = 'index.php';
 
