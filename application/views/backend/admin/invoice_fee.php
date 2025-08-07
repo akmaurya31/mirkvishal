@@ -174,11 +174,11 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><?php echo ('Fee Type');?></label>
                                     <div class="col-sm-9">
-                                        <select name="fee_duration" class="form-control">
+                                        <select name="fee_duration" class="form-control" id="id_fee_duration">
                                             <option value="1"><?php echo ('Monthly');?></option>
-                                            <option value="2"><?php echo ('Quarterly');?></option>
-                                            <option value="3"><?php echo ('Half-yearly');?></option>
-                                            <option value="4"><?php echo ('Annually');?></option>
+                                            <option value="4"><?php echo ('Quarterly');?></option>
+                                            <option value="6"><?php echo ('Half-yearly');?></option>
+                                            <option value="12"><?php echo ('Annually');?></option>
                                         </select>
                                     </div>
                                 </div>
@@ -187,7 +187,8 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><?php echo ('Amount');?></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="amount"  id="id_amount"/>
+                                        <input type="text" class="form-control tcls" name="amount"  id="id_amount" />
+                                        <input type="hidden" class="form-control" name="hid_amount"  id="id_hid_amount" />
                                     </div>
                                 </div>
 
@@ -200,13 +201,13 @@
                                             <div class="col-sm-6">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" name="fee_type[]" value="transportation">
+                                                        <!-- <input type="checkbox" name="fee_type[]" value="transportation"> -->
                                                         <?php echo ('Transportation Fee'); ?>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 mt-4">
-                                                <input type="text" class="form-control" name="transportation_amount" placeholder="Amount">
+                                                <input type="text" class="form-control tcls" name="transportation_amount" placeholder="Amount">
                                             </div>
                                         </div>
 
@@ -214,13 +215,13 @@
                                             <div class="col-sm-6">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" name="fee_type[]" value="examination">
+                                                        <!-- <input type="checkbox" name="fee_type[]" value="examination"> -->
                                                         <?php echo ('Examination Fee'); ?>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 mt-4">
-                                                <input type="text" class="form-control" name="examination_amount" placeholder="Amount">
+                                                <input type="text" class="form-control tcls" name="examination_amount" placeholder="Amount">
                                             </div>
                                         </div>
 
@@ -228,13 +229,13 @@
                                             <div class="col-sm-6">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" name="fee_type[]" value="admission">
+                                                        <!-- <input type="checkbox" name="fee_type[]" value="admission"> -->
                                                         <?php echo ('Admission Fee'); ?>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" name="admission_amount"  id="id_admission_amount" placeholder="Amount">
+                                                <input type="text" class="form-control tcls" name="admission_amount"  id="id_admission_amount" placeholder="Amount">
                                             </div>
                                         </div>
 
@@ -249,7 +250,7 @@
                                         <input type="text" class="form-control" name="other_fee_title" placeholder="Fee Title (e.g., Sports Fee)" />
                                     </div>
                                     <div class="col-sm-5">
-                                        <input type="text" class="form-control" name="other_fee_amount" placeholder="Amount" />
+                                        <input type="text" class="form-control tcls" name="other_fee_amount" placeholder="Amount" />
                                     </div>
                                 </div>
 
@@ -259,8 +260,8 @@
                                  <div class="form-group">
                                     <label class="col-sm-3 control-label"><?php echo ('Total');?></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="amount"
-                                            placeholder="<?php echo ('Enter Total Amount');?>"/>
+                                        <input type="text" class="form-control" name="tot_amount" id="id_tot_amount"
+                                            placeholder="<?php echo ('Enter Total Amount');?>" value="0"/>
                                     </div>
                                 </div>
 
@@ -322,11 +323,12 @@
 
 
 <script>
-function get_students_by_class(class_id) {
+ function get_students_by_class(class_id) {
     if (class_id != "") {
+        // 1. Get students list
         $.ajax({
             url: "<?php echo base_url(); ?>index.php?admin/get_students_by_class/" + class_id,
-             success: function(response) {
+            success: function(response) {
                 var options = '<option value="">Select Student</option>';
                 for (var i = 0; i < response.length; i++) {
                     options += '<option value="' + response[i].id + '">' + response[i].name + '</option>';
@@ -335,28 +337,89 @@ function get_students_by_class(class_id) {
             }
         });
 
+        // 2. Get fee details, then calculate total
         $.ajax({
             url: "<?php echo base_url(); ?>index.php?admin/ggetFeeByClassid/" + class_id,
             success: function(response1) {
-                var response = JSON.parse(response1); // ✅ Fix 1: Capital JSON
+                var response = JSON.parse(response1);
 
                 if (response.length > 0) {
-                    // ✅ Fix 2: Access the first object in array
                     $('#id_amount').val(response[0].monthly);
+                    $('#id_hid_amount').val(response[0].monthly);
                     $('#id_admission_amount').val(response[0].admission);
                 } else {
-                    // Optional: Clear values if no fee found
                     $('#id_amount').val('');
+                    $('#id_hid_amount').val('');
                     $('#id_admission_amount').val('');
                 }
+
+                // ✅ 3. Calculate total only after fee data is set
+                calcu();
             }
         });
-
-       
-
 
     } else {
         $('#student_dropdown').html('<option value="">Select Student</option>');
     }
 }
+
+
+
+
+
+function totalAmount(){
+
+   var id_amount= $('#id_amount').val();
+//    alert(id_amount);
+}
+
+ totalAmount();
+
+    $('.tcls').on('change keyup', function() {
+      calcu();
+    });
+
+
+    $('input[name="fee_type[]"]').on('change', function() {
+        let selectedFees = [];
+
+        $('input[name="fee_type[]"]:checked').each(function() {
+            selectedFees.push($(this).val());
+        });
+    });
+
+
+
+$(document).ready(function() {
+    $('#id_fee_duration').on('change', function() {
+         calcu();
+    });
+});
+
+
+    
+function calcu(){
+        let monthlyFee = parseFloat($('#id_hid_amount').val()) || 0; // get base monthly fee
+        var feee= $('#id_fee_duration').val();
+        let duration = parseInt(feee) || 1; // duration selected
+        let totalFee = monthlyFee * duration;
+        $('#id_amount').val(totalFee.toFixed(2)); // set calculated total
+        
+
+        var total = 0;
+        $('.tcls').each(function() {
+            var val = parseFloat($(this).val()) || 0;
+            total += val;
+        });
+
+
+
+        $('#id_tot_amount').val(total.toFixed(2));
+}
+
+// $('#fee_type').val()
+
+ 
+
+
 </script>
