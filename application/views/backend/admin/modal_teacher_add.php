@@ -4,7 +4,7 @@
         	<div class="panel-heading">
             	<div class="panel-title" >
             		<i class="entypo-plus-circled"></i>
-					<?php echo ('Add Teacher');?>
+					<?php echo ('Add Employee');?>
             	</div>
             </div>
 			<div class="panel-body">

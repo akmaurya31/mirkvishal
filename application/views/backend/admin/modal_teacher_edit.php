@@ -8,7 +8,7 @@ foreach ( $edit_data as $row):
         	<div class="panel-heading">
             	<div class="panel-title" >
             		<i class="entypo-plus-circled"></i>
-					<?php echo ('Edit Teacher');?>
+					<?php echo ('Edit Employee');?>
             	</div>
             </div>
 			<div class="panel-body">
