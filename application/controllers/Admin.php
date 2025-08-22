@@ -1009,6 +1009,8 @@ class Admin extends CI_Controller
 }
 
 public function expense($param1 = '', $param2 = '', $param3 = '') {
+      if ($_SESSION['admin_login'] != 1)
+            redirect('login', 'refresh');
 
       if ($param1 == 'filter') { 
         //  die("SDffff");
@@ -1026,8 +1028,7 @@ public function expense($param1 = '', $param2 = '', $param3 = '') {
     // $page_data['page_title'] = get_phrase('Expense');
     // $this->load->view('backend/index', $page_data);
 
-        if ($_SESSION['admin_login'] != 1)
-            redirect('login', 'refresh');
+      
         if ($param1 == 'create') {
             $data['title']               =   $this->input->post('title');
             $data['expense_category_id'] =   $this->input->post('expense_category_id');
@@ -1065,9 +1066,6 @@ public function expense($param1 = '', $param2 = '', $param3 = '') {
         $page_data['page_name']  = 'expense';
         $page_data['page_title'] = 'Expenses';
         $this->load->view('backend/index', $page_data); 
-
-
-
 }
 
 
