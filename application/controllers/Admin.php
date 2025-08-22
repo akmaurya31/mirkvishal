@@ -943,7 +943,135 @@ class Admin extends CI_Controller
         $this->load->view('backend/index', $page_data); 
     }
 
-    function expense($param1 = '' , $param2 = '')
+
+    public function expense_filter() {
+        $from_date = $this->input->post('from_date');
+        $to_date   = $this->input->post('to_date');
+
+        $this->db->where('payment_type', 'expense');
+
+        if(!empty($from_date) && !empty($to_date)) {
+            $from_timestamp = strtotime($from_date . "-01");
+            $to_timestamp   = strtotime($to_date . "-01 +1 month -1 day");
+            $this->db->where('timestamp >=', $from_timestamp);
+            $this->db->where('timestamp <=', $to_timestamp);
+        }
+
+        $this->db->order_by('timestamp', 'desc');
+        $expenses = $this->db->get('payment')->result_array();
+        // echo $this->db->last_query(); 
+
+        $html = '';
+        $count = 1;
+        $total = 0;
+
+        foreach($expenses as $row) {
+            $catName = '';
+            if (!empty($row['expense_category_id'])) {
+                $cat = $this->db->get_where('expense_category', ['expense_category_id' => $row['expense_category_id']])->row();
+                $catName = $cat ? $cat->name : '';
+            }
+
+            $method = '';
+            if ($row['method'] == 1) $method = 'Cash';
+            if ($row['method'] == 2) $method = 'Cheque';
+            if ($row['method'] == 3) $method = 'Card';
+
+            $html .= '
+            <tr>
+                <td>'.$count++.'</td>
+                <td>'.$row['title'].'</td>
+                <td>'.$catName.'</td>
+                <td>'.$method.'</td>
+                <td>'.$row['amount'].'</td>
+                <td>'.date('d M,Y', $row['timestamp']).'</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-default pull-right" role="menu">
+                            <li><a href="#" onclick="showAjaxModal(\''.base_url().'index.php?modal/popup/modal_view_slip/'.$row['payment_id'].'\');"><i class="entypo-credit-card"></i> Slip</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" onclick="showAjaxModal(\''.base_url().'index.php?modal/popup/expense_edit/'.$row['payment_id'].'\');"><i class="entypo-pencil"></i> Edit</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" onclick="confirm_modal(\''.base_url().'index.php?admin/expense/delete/'.$row['payment_id'].'\');"><i class="entypo-trash"></i> Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>';
+            $total += $row['amount'];
+        }
+
+        echo json_encode([
+            'total' => $total,
+            'expenses' => $expenses,
+            'html' => $html
+        ]);
+}
+
+public function expense($param1 = '', $param2 = '', $param3 = '') {
+
+      if ($param1 == 'filter') { 
+        //  die("SDffff");
+        $this->expense_filter();
+        exit;
+      }
+
+
+    // if ($param1 == 'delete') {
+    //     $this->db->where('payment_id', $param2);
+    //     $this->db->delete('payment');
+    //     redirect(base_url().'index.php?admin/expense', 'refresh');
+    // }
+    // $page_data['page_name']  = 'expense';
+    // $page_data['page_title'] = get_phrase('Expense');
+    // $this->load->view('backend/index', $page_data);
+
+        if ($_SESSION['admin_login'] != 1)
+            redirect('login', 'refresh');
+        if ($param1 == 'create') {
+            $data['title']               =   $this->input->post('title');
+            $data['expense_category_id'] =   $this->input->post('expense_category_id');
+            $data['description']         =   $this->input->post('description');
+            $data['payment_type']        =   'expense';
+            $data['method']              =   $this->input->post('method');
+            $data['amount']              =   $this->input->post('amount');
+            $data['timestamp']           =   strtotime($this->input->post('timestamp'));
+            $this->db->insert('payment' , $data);
+            $this->session->set_flashdata('flash_message' , get_phrase('data_added_successfully'));
+            redirect(base_url() . 'index.php?admin/expense', 'refresh');
+        }
+
+        if ($param1 == 'edit') {
+            $data['title']               =   $this->input->post('title');
+            $data['expense_category_id'] =   $this->input->post('expense_category_id');
+            $data['description']         =   $this->input->post('description');
+            $data['payment_type']        =   'expense';
+            $data['method']              =   $this->input->post('method');
+            $data['amount']              =   $this->input->post('amount');
+            $data['timestamp']           =   strtotime($this->input->post('timestamp'));
+            $this->db->where('payment_id' , $param2);
+            $this->db->update('payment' , $data);
+            $this->session->set_flashdata('flash_message' , get_phrase('data_updated'));
+            redirect(base_url() . 'index.php?admin/expense', 'refresh');
+        }
+
+        if ($param1 == 'delete') {
+            $this->db->where('payment_id' , $param2);
+            $this->db->delete('payment');
+            $this->session->set_flashdata('flash_message' , get_phrase('data_deleted'));
+            redirect(base_url() . 'index.php?admin/expense', 'refresh');
+        }
+
+        $page_data['page_name']  = 'expense';
+        $page_data['page_title'] = 'Expenses';
+        $this->load->view('backend/index', $page_data); 
+
+
+
+}
+
+
+    function expense11($param1 = '' , $param2 = '')
     {
         if ($_SESSION['admin_login'] != 1)
             redirect('login', 'refresh');
