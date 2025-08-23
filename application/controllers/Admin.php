@@ -1021,6 +1021,57 @@ class Admin extends CI_Controller
         ]);
     }
 
+    public function income_export_csv() {
+    $from_date = $this->input->get('from_date');
+    $to_date   = $this->input->get('to_date');
+
+    $this->db->where('payment_type', 'income');
+
+    if (!empty($from_date) && !empty($to_date)) {
+        $from_timestamp = strtotime($from_date . "-01 00:00:00");
+        $to_timestamp   = strtotime($to_date . "-01 +1 month -1 day 23:59:59");
+        $this->db->where('timestamp >=', $from_timestamp);
+        $this->db->where('timestamp <=', $to_timestamp);
+    }
+
+    $this->db->order_by('timestamp', 'desc');
+    $expenses = $this->db->get('payment')->result_array();
+
+    // Set CSV headers
+    header("Content-type: text/csv");
+    header("Content-Disposition: attachment; filename=incomes.csv");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+    $output = fopen("php://output", "w");
+
+    // CSV Header row
+    fputcsv($output, array('ID', 'Title', 'Description', 'StudentClass', 'Amount', 'Method', 'Date'));
+
+    // CSV Data rows
+    foreach ($expenses as $row) {
+        $method = '';
+        if ($row['method'] == 1) $method = 'Cash';
+        if ($row['method'] == 2) $method = 'Cheque';
+        if ($row['method'] == 3) $method = 'Card';
+        $stcl=$this->expense_model->getStudent($row['student_id']);
+
+        fputcsv($output, array(
+            $row['payment_id'],
+            $row['title'],
+            $row['description'],
+            $stcl,
+            $row['amount'],
+            $method,
+            date('d M, Y', $row['timestamp'])
+        ));
+    }
+
+    fclose($output);
+    exit;
+}
+
+
     public function expense_filter() {
         $from_date = $this->input->post('from_date');
         $to_date   = $this->input->post('to_date');
@@ -1084,6 +1135,61 @@ class Admin extends CI_Controller
             'expenses' => $expenses,
             'html' => $html
         ]);
+}
+
+  public function expense_export_csv() {
+    $from_date = $this->input->get('from_date');
+    $to_date   = $this->input->get('to_date');
+
+    $this->db->where('payment_type', 'expense');
+
+    if (!empty($from_date) && !empty($to_date)) {
+        $from_timestamp = strtotime($from_date . "-01 00:00:00");
+        $to_timestamp   = strtotime($to_date . "-01 +1 month -1 day 23:59:59");
+        $this->db->where('timestamp >=', $from_timestamp);
+        $this->db->where('timestamp <=', $to_timestamp);
+    }
+
+    $this->db->order_by('timestamp', 'desc');
+    $expenses = $this->db->get('payment')->result_array();
+
+    // Set CSV headers
+    header("Content-type: text/csv");
+    header("Content-Disposition: attachment; filename=expense.csv");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+    $output = fopen("php://output", "w");
+
+    // CSV Header row
+    fputcsv($output, array('ID', 'Title', 'Description',  'Amount', 'Method', 'Date'));
+
+    // CSV Data rows
+    foreach ($expenses as $row) {
+        $method = '';
+        if ($row['method'] == 1) $method = 'Cash';
+        if ($row['method'] == 2) $method = 'Cheque';
+        if ($row['method'] == 3) $method = 'Card';
+
+        $catName = '';
+        if (!empty($row['expense_category_id'])) {
+            $cat = $this->db->get_where('expense_category', ['expense_category_id' => $row['expense_category_id']])->row();
+            $catName = $cat ? $cat->name : '';
+        }
+
+        fputcsv($output, array(
+            $row['payment_id'],
+            $row['title'],
+            $row['description'],
+            $catName,
+            $row['amount'],
+            $method,
+            date('d M, Y', $row['timestamp'])
+        ));
+    }
+
+    fclose($output);
+    exit;
 }
 
 public function expense($param1 = '', $param2 = '', $param3 = '') {

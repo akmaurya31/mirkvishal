@@ -17,6 +17,11 @@ $curMonthYear = date("Y-m"); // YYYY-MM format
     <button id="applyFilter" class="btn btn-success"> 
       <i class="entypo-search"></i> Apply Filter 
     </button> 
+
+	<button id="downloadExcel" class="btn btn-primary"> 
+		<i class="entypo-download"></i> Download CSV 
+	</button>
+
   </div> 
 </div> 
 <br>
@@ -69,6 +74,14 @@ $(document).ready(function(){
                 $('#totalAmount').html(res.total);
             }
         });
+    });
+
+
+	 $('#downloadExcel').click(function() {
+        let from_date = $('#from_date').val();
+        let to_date   = $('#to_date').val();
+
+        window.location.href = "<?php echo base_url('index.php?admin/income_export_csv'); ?>/from_date/" + from_date + "/to_date/" + to_date;
     });
 });
 </script>
