@@ -932,7 +932,7 @@ class Admin extends CI_Controller
     }
 
     /**********ACCOUNTING********************/
-    function income($param1 = '' , $param2 = '')
+    function incomexxx($param1 = '' , $param2 = '')
     {
     //    if ($_SESSION['admin_login'] != 1)
     //         redirect('login', 'refresh');
@@ -943,6 +943,83 @@ class Admin extends CI_Controller
         $this->load->view('backend/index', $page_data); 
     }
 
+
+    function income($param1 = '' , $param2 = '')
+    {
+        //    if ($_SESSION['admin_login'] != 1)
+        //      redirect('login', 'refresh');
+
+          if ($param1 == 'filter') { 
+            //  die("SDffff");
+            $this->income_filter();
+            exit;
+          }
+
+
+        $page_data['page_name']  = 'income';
+        $page_data['page_title'] = 'Incomes';
+        $this->db->where('MONTH(FROM_UNIXTIME(creation_timestamp))', date('m'));
+        $this->db->where('YEAR(FROM_UNIXTIME(creation_timestamp))', date('Y'));
+        $this->db->order_by('creation_timestamp', 'desc');
+        $page_data['invoices'] = $this->db->get('invoice')->result_array();
+        $this->load->view('backend/index', $page_data); 
+    }
+
+
+
+
+    public function income_filter() {
+        $from_date = $this->input->post('from_date');
+        $to_date   = $this->input->post('to_date');
+
+        $this->db->where('payment_type', 'income');
+
+        if(!empty($from_date) && !empty($to_date)) {
+            $from_timestamp = strtotime($from_date . "-01");
+            $to_timestamp   = strtotime($to_date . "-01 +1 month -1 day");
+            $this->db->where('timestamp >=', $from_timestamp);
+            $this->db->where('timestamp <=', $to_timestamp);
+        }
+
+        $this->db->order_by('timestamp', 'desc');
+        $expenses = $this->db->get('payment')->result_array();
+       // print_r($expenses);
+        // echo $this->db->last_query(); 
+        // die("Asdf");
+
+        $html = '';
+        $count = 1;
+        $total = 0;
+
+       if(!empty($expenses)) {
+        foreach($expenses as $row) {
+            $catName = '';
+            $method = '';
+            if ($row['method'] == 1) $method = 'Cash';
+            if ($row['method'] == 2) $method = 'Cheque';
+            if ($row['method'] == 3) $method = 'Card';
+            $stcl=$this->expense_model->getStudent($row['student_id']);
+
+            $html .= '
+            <tr>
+                <td>'.$count++.'</td>
+                <td>'.$row['title'].'</td>
+                <td>'.$row['description'].'</td>
+                <td>'.$stcl.'</td>
+                <td>'.$method.'</td>
+                <td>'.(!empty($row['amount']) ? $row['amount'] : 0).'</td>
+                <td>'.date('d M,Y', $row['timestamp']).'</td>
+            </tr>';
+           $total += !empty($row['amount']) ? $row['amount'] : 0;
+        }
+       }
+
+        echo json_encode([
+            'total' => $total,
+            'expenses' => $expenses,
+            'html' => $html
+        ]);
+    }
 
     public function expense_filter() {
         $from_date = $this->input->post('from_date');
@@ -983,7 +1060,7 @@ class Admin extends CI_Controller
                 <td>'.$row['title'].'</td>
                 <td>'.$catName.'</td>
                 <td>'.$method.'</td>
-                <td>'.$row['amount'].'</td>
+                <td>'.(!empty($row['amount']) ? $row['amount'] : 0).'</td>
                 <td>'.date('d M,Y', $row['timestamp']).'</td>
                 <td>
                     <div class="btn-group">
@@ -998,7 +1075,8 @@ class Admin extends CI_Controller
                     </div>
                 </td>
             </tr>';
-            $total += $row['amount'];
+            $total += !empty($row['amount']) ? $row['amount'] : 0;
+
         }
 
         echo json_encode([

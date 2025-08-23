@@ -2,8 +2,10 @@
 $count = 1;
 $srr = [];
 $this->db->where('payment_type' , 'expense'); 
-$this->db->order_by('timestamp' , 'desc'); 
-$expenses = $this->db->get('payment')->result_array(); 
+$this->db->where('MONTH(FROM_UNIXTIME(timestamp))', date('m'));
+$this->db->where('YEAR(FROM_UNIXTIME(timestamp))', date('Y'));
+$this->db->order_by('timestamp', 'desc');
+$expenses = $this->db->get('payment')->result_array();
 
 foreach ($expenses as $row): 
 ?>
