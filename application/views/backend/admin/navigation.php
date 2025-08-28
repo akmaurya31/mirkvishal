@@ -114,12 +114,7 @@
                     </a>
                 </li>
 
-                <!-- STUDENT BULK ADMISSION -->
-                <li class="<?php if ($page_name == 'student_bulk_add') echo 'active'; ?> ">
-                    <a href="<?php echo base_url(); ?>index.php?admin/student_bulk_add">
-                        <span><i class="entypo-dot"></i> <?php echo ('Admit Bulk Student'); ?></span>
-                    </a>
-                </li>
+             
 
                 <!-- STUDENT INFORMATION -->
                 <li class="<?php if ($page_name == 'student_information') echo 'opened active'; ?> ">
