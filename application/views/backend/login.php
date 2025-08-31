@@ -73,17 +73,18 @@ var baseurl = '<?php echo base_url();?>';
 		<div></div>
 	</div>
 	
-	<div class="login-form">
-		
-		<div class="login-content">
+<div class="login-form" >
+
+		<div class="login-content" style="background-image: url('<?php echo base_url(); ?>assets/logoc.png');     background-repeat: no-repeat;">
 			
 			<div class="form-login-error">
 				<h3>Invalid login</h3>
 				<p>Please enter correct email and password!</p>
 			</div>
-			
-			<form method="post" role="form" id="form_login">
-				
+			<?php   $ee=base_url() . 'index.php?admin'; ?>
+			<!-- <form method="post" role="form" id="form_login" action="<?php echo $ee ?>/ajax_login"> -->
+
+				<form method="post" role="form" id="form_login">
 				<div class="form-group">
 					
 					<div class="input-group">
@@ -119,12 +120,7 @@ var baseurl = '<?php echo base_url();?>';
 			</form>
 			
 			
-			<div class="login-bottom-links">
-				<A href="<?php echo base_url();?>index.php?login/forgot_password" class="link">
-					<?php echo get_phrase('forgot_your_password');?> ?
-				</A>
-			</div>
-			
+		 
 
 <style>
     td {
@@ -143,6 +139,28 @@ var baseurl = '<?php echo base_url();?>';
         document.getElementById("email").value  =   email;
         document.getElementById("password").value  =   password;
     }
+
+$("#form_login").submit(function(e){
+    e.preventDefault();
+    $.ajax({
+        url: "<?php echo $ee ?>/ajax_login",
+        type: "POST",
+        data: $(this).serialize(),
+        dataType: "json",
+        success: function(response){
+            if(response.login_status === "success"){
+                window.location.href = response.redirect_url;
+            } else {
+                alert("Invalid email or password");
+            }
+        }
+    });
+});
+
+
+
+
+
 </script>
 
 <!-- <div class="panel panel-primary" style="background-color:rgba(255, 255, 255, 0);border-color: rgba(235, 235, 235, 0.14);">

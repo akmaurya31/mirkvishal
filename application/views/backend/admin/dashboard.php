@@ -1,7 +1,7 @@
 <div class="row">
 	
     
-	<div class="col-md-12">
+	<div class="col-md-12"  style="background-image: url('<?php echo base_url(); ?>assets/logod.png'); background-position: center center; background-size: contain;    background-repeat: no-repeat;">
 		<div class="row">
             <div class="col-md-4">
             
@@ -18,7 +18,7 @@
 
             <div class="col-md-4">
             
-                <div class="tile-stats tile-red">
+                <div class="tile-stats" style="background-color:#f56954d6">
                     <div class="icon"><i class="entypo-graduation-cap"></i></div>
                     <div class="num" data-start="0" data-end="<?php echo $this->db->count_all('student');?>" 
                     		data-postfix="" data-duration="1500" data-delay="0">0</div>
@@ -59,7 +59,7 @@
 
             <div class="col-md-4">
             
-                <div class="tile-stats tile-brown">
+                <div class="tile-stats  " style="background-color:#6c541ecc">
                     <div class="icon"><i class="entypo-user"></i></div>
                     <div class="num" data-start="0" data-end="<?php $query = $this->db->query('SELECT * FROM invoice WHERE status = "unpaid"'); echo $query->num_rows();?>" 
                     		data-postfix="" data-duration="500" data-delay="0">0</div>
@@ -99,7 +99,7 @@
     	</div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" >
     	<div class="row">
             <!-- CALENDAR-->
             <div class="col-md-12 col-xs-12">    
