@@ -237,19 +237,19 @@ class Admin extends CI_Controller
 			move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_import.xlsx');
 			// Importing excel sheet for bulk student uploads
 
-			include 'simplexlsx.class.php';
+			//include 'simplexlsx.class.php';
 			
-			$xlsx = new SimpleXLSX('uploads/student_import.xlsx');
+		//	$xlsx = new SimpleXLSX('uploads/student_import.xlsx');
 			
-			list($num_cols, $num_rows) = $xlsx->dimension();
+			list($num_cols, $num_rows) ='';// $xlsx->dimension();
 			$f = 0;
-			foreach( $xlsx->rows() as $r ) 
+			//foreach( $xlsx->rows() as $r ) 
 			{
 				// Ignore the inital name row of excel file
 				if ($f == 0)
 				{
 					$f++;
-					continue;
+				//	continue;
 				}
 				for( $i=0; $i < $num_cols; $i++ )
 				{
@@ -1122,6 +1122,43 @@ public function expense($param1 = '', $param2 = '', $param3 = '') {
 	       echo json_encode($rr);
     }
 
+
+    function festival($param1 = '' , $param2 = ''){
+        //exit;
+    //    die('savita');
+
+     if ($param1 == 'create') {
+
+            $data['festival_name']   =   $this->input->post('festival_name');
+            $data['sweets']   =   $this->input->post('sweets');
+            $data['decoration_charge']   =   $this->input->post('decoration_charge');
+            $data['prize']   =   $this->input->post('prize');
+             $data['tour']   =   $this->input->post('tour');
+            
+            $this->db->insert('festival' , $data);
+            $this->session->set_flashdata('flash_message' , get_phrase('data_added_successfully'));
+            redirect(base_url() . 'index.php?admin/festival');
+        }
+
+         if ($param1 == 'edit') {
+           // die('savita');
+            $data['festival_name']   =   $this->input->post('festival_name');
+            $data['sweets']   =   $this->input->post('sweets');
+            $data['decoration_charge']   =   $this->input->post('decoration_charge');
+            $data['prize']   =   $this->input->post('prize');
+             $data['tour']   =   $this->input->post('tour');
+
+            $this->db->where('festival_id' , $param2);
+            $this->db->update('festival' , $data);
+            $this->session->set_flashdata('flash_message' , get_phrase('data_updated'));
+            redirect(base_url() . 'index.php?admin/festival');
+        }
+
+
+         $page_data['page_name']  = 'festival';
+        $page_data['page_title'] = 'Festival';
+        $this->load->view('backend/index', $page_data); 
+    }
 
 
      function fee($param1 = '' , $param2 = '')

@@ -152,6 +152,12 @@
             </a>
         </li>
 
+   <li class="<?php if ($page_name == 'festival') echo 'active'; ?> ">
+            <a href="<?php echo base_url(); ?>index.php?admin/festival">
+                <i class="entypo-users"></i>
+                <span><?php echo ('festival Section'); ?></span>
+            </a>
+        </li>
 
        
         <!-- PAYMENT -->

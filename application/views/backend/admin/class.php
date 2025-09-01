@@ -1,3 +1,5 @@
+
+if($_SESSION["REQUEST_METHOD"]=="POST");
 <div class="row">
 	<div class="col-md-12">
     
