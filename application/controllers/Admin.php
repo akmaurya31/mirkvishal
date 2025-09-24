@@ -870,7 +870,16 @@ public function expense($param1 = '', $param2 = '', $param3 = '') {
             $data['title']              = $this->input->post('title');
             $data['class_id']         = $this->input->post('class_id');
             $data['student_id']         = $this->input->post('student_id');
-            $data['fee_duration']         = $this->input->post('fee_duration');
+            // $data['fee_duration']         = $this->input->post('fee_duration');
+            $fee_duration     = $this->input->post('fee_duration');
+            $duration_map = [
+                                '1'  => 'Monthly',
+                                '4'  => 'Quarterly',
+                                '6'  => 'Half-yearly',
+                                '12' => 'Annually'
+                            ];
+            $data['fee_duration'] = isset($duration_map[$fee_duration]) ? $duration_map[$fee_duration] : '';
+
             $data['amount']             = $this->input->post('amount');
             $data['transportation_fee'] = $this->input->post('transportation_amount');
             $data['examination_fee'] = $this->input->post('examination_amount');
@@ -881,13 +890,17 @@ public function expense($param1 = '', $param2 = '', $param3 = '') {
             $data['payment_method']             = $this->input->post('method');
             $data['description']        = $this->input->post('description');
 
-            $data['amount_paid']        = $this->input->post('amount');
-            $data['due']                = $data['amount'];
+            $amount               = $this->input->post('amount');
+            $admission_amount = $this->input->post('admission_amount');
+            $transportation_amount = $this->input->post('transportation_amount');
+            $examination_amount    = $this->input->post('examination_amount');
+            $other_fee_amount      = $this->input->post('other_fee_amount');
+            $data['amount_paid'] = $amount + $transportation_amount + $examination_amount + $other_fee_amount + $admission_amount;
+            $data['due']         = $amount + $transportation_amount + $examination_amount + $other_fee_amount + $admission_amount;
             $data['creation_timestamp'] = strtotime($this->input->post('date'));
             
             $this->db->insert('invoice', $data);
             $invoice_id = $this->db->insert_id();
- 
 
             $this->session->set_flashdata('flash_message' , get_phrase('data_added_successfully'));
             redirect(base_url() . 'index.php?admin/invoice', 'refresh');

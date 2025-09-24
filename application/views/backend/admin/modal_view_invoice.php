@@ -47,19 +47,40 @@ foreach ($edit_data as $row):
         </table>
         <hr>
 
-        <table width="100%" border="0">    
+        <table width="100%" border="0">  
+            
             <tr>
-                <td align="right" width="80%"><?php echo ('Total Amount'); ?> :</td>
-                <td align="right">₹<?php echo $row['amount']; ?></td>
+                <td align="right" width="80%"><?php echo $row['fee_duration'] ?> :</td>
+                <td align="right">₹<?php echo number_format((float)$row['amount'], 2, '.', ''); ?></td>
+            </tr>
+
+             <tr>
+                <td align="right" width="80%">Transportation Fee :</td>
+                <td align="right">₹<?php echo number_format((float)$row['transportation_fee'], 2, '.', ''); ?></td>
+            </tr>
+
+             <tr>
+                <td align="right" width="80%">Admission Fee :</td>
+                <td align="right">₹<?php echo number_format((float)$row['admission_fee'], 2, '.', ''); ?></td>
+            </tr>
+		
+             <tr>
+                <td align="right" width="80%">Examination Fee :</td>
+                <td align="right">₹<?php echo number_format((float)$row['examination_fee'], 2, '.', ''); ?></td>
+            </tr>
+
+            <tr>
+                <td align="right" width="80%"><?php echo $row['other_fee_text'];?> :</td>
+                <td align="right">₹<?php echo number_format((float)$row['other_fee'], 2, '.', ''); ?></td>
             </tr>
             <tr>
                 <td align="right" width="80%"><h4><?php echo ('Paid Amount'); ?> :</h4></td>
-                <td align="right"><h4>₹<?php echo $row['amount_paid']; ?></h4></td>
+                <td align="right">  <h4>₹<?php echo number_format((float)$row['amount_paid'], 2, '.', ''); ?></h4></td>
             </tr>
             <?php if ($row['due'] != 0):?>
             <tr>
                 <td align="right" width="80%"><h4><?php echo ('Due'); ?> :</h4></td>
-                <td align="right"><h4>₹<?php echo $row['due']; ?></h4></td>
+                <td align="right"><h4>₹<?php echo number_format((float)$row['due'], 2, '.', ''); ?></h4></td>
             </tr>
             <?php endif;?>
         </table>
